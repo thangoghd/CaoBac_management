@@ -17,30 +17,14 @@
             <div class="">
                 <div class="div-center">
                     <h2 class="h2-font mb-5">Thêm khách hàng</h2>
-                    <form action="{{url('/create_customer')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('create.customer')}}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <div class="row">
                         <div class="col-md-8 mx-3 mb-5">
                           <label class="form-label fw-bold">Tên khách hàng</label>
                           <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Viết tên khách hàng" required>
                         </div>
-                        <div class="col-md-4 mx-3 mb-5 ">
-                          <label class="form-label fw-bold">Mã khách hàng</label>
-                          <div class="d-flex">
-                            <input type="text" class="form-control" name="customer_id" id="customer_id" placeholder="Mã khách hàng" readonly required>
-                            <button class="btn" onclick="generateRandomCode()"><i class="fa-solid fa-shuffle"></i></button>
-                          </div>
 
-                        </div>
-
-                        <div class="col-md-4 mx-3 mb-5">
-                          <label class="form-label fw-bold">Nhóm khách hàng</label>
-                          <select class="form-control" name="type_id" id="type_id">
-                            @foreach($type as $index => $item)
-                            <option value="{{$item->id}}">{{$item->type_name}}</option>
-                            @endforeach
-                          </select>
-                        </div>
                         <div class="col-md-4 mx-3 mb-5">
                           <label class="form-label fw-bold">Giới tính</label>
                           <div class="form-check-label">
@@ -94,7 +78,7 @@
     </div>
     <!-- container-scroller -->
     @include('admin.js')
-    @include('admin.customers.js.customer_js')
   </body>
 </html>
+<script src="{{asset('admin/js/customer/customer.js')}}"></script>
 

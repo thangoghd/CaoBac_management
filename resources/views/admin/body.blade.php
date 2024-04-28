@@ -28,11 +28,6 @@
                               <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                   Doang thu tháng này</div>
                               <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{
-                                    number_format(App\Models\Order::whereMonth('datetime', $currentMonth)
-                                    ->whereYear('datetime', $currentYear)
-                                    ->sum('payment_amount'), 0, ",", ",");
-                                }}
                                 VND
                               </div>
                           </div>
@@ -53,10 +48,6 @@
                               <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Doang thu năm nay</div>
                               <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{
-                                    number_format(App\Models\Order::whereYear('datetime', $currentYear)
-                                    ->sum('payment_amount'), 0, ",", ",");
-                                }}
                                 VND
                               </div>
                           </div>

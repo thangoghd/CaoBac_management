@@ -1,16 +1,16 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<script>
-  //generate random string for customer's id
-  function generateRandomCode() {
-      var length = 8;
-      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      var result = 'KH_';
-  
-      for (var i = 0; i < length; i++) {
-          result += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-  
-      document.getElementById('customer_id').value = result;
+
+
+//generate random string for customer's id
+function generateRandomCode() {
+    var length = 8;
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = 'KH_';
+
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+
+    document.getElementById('customer_id').value = result;
   }
 
   var citis = document.getElementById("city");
@@ -73,4 +73,3 @@
 
         document.getElementById('address').value = address;
     }
-</script>

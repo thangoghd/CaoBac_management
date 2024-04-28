@@ -19,7 +19,8 @@
 {{-- Installation Font Awesome Kit --}}
 <script src="https://kit.fontawesome.com/6c02325e2b.js" crossorigin="anonymous"></script>
 
-
+{{-- Installation axios --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 
 {{-- Set timeout for alert message --}}
 <script>

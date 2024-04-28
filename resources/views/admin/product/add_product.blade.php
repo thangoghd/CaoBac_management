@@ -29,10 +29,6 @@
                           <input type="file" class="form-control" name="image">
                         </div>
                         <div class="col-md-4 mx-3 mb-5">
-                          <label class="form-label fw-bold">Mã sản phẩm</label>
-                          <input type="text" class="form-control" name="product_id" placeholder="Viết mã sản phẩm">
-                        </div>
-                        <div class="col-md-4 mx-3 mb-5">
                           <label class="form-label fw-bold">Giá</label>
                           <input type="number" class="form-control" name="price" placeholder="Viết giá sản phẩm" required>
                         </div>

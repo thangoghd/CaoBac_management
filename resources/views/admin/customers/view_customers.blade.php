@@ -24,8 +24,8 @@
                     <tr class="bg-dark text-light">
                       <th scope="col">#</th>
                       <th scope="col">Tên khách hàng</th>
-                      <th scope="col">Mã khách hàng</th>
                       <th scope="col">Nhóm khách hàng</th>
+                      <th scope="col">Liên kết tài khoản</th>
                       <th scope="col">Giới tính</th>
                       <th scope="col">Ngày sinh</th>
                       <th scope="col">SĐT</th>
@@ -37,16 +37,20 @@
                       <tr class="align-middle">
                         <td>{{$index +1}} </td>
                         <td>{{$item->customer_name}}</td>
-                        <td>{{$item->customer_id}}</td>
-                        <td>{{$item->type_name}}</td>
+                        <td>{{$item->type}}</td>
+                        <td>
+                          {{$item->user_id ? 'Có' : 'Không'}}
+                        </td>
                         <td>{{ $item->gender == '1' ? 'Nữ' : 'Nam' }}</td>
                         <td>{{$item->birthdate}}</td>
                         <td>{{$item->phonenum}}</td>
                         <td>{{$item->address}}</td>
                         <td> 
                           <button type="button" onclick="" href="" title="Xem chi tiết" class="btn btn-success shadow-none btn-sm"><i class="fa-solid fa-eye"></i></button>
-                          <button type="button" title="Sửa" value="{{$item->id}}" class="btn btn-primary shadow-none btn-sm edit"><i class="fa-solid fa-pencil"></i></button>               
-                          <a type="button" onclick="return confirm('Bạn có chắc rằng muốn xoá? Dữ liệu sẽ không thể phục hồi.')" href="{{url('delete_customer', $item->id)}}" title="Xoá" class="btn btn-danger shadow-none btn-sm"><i class="fa-solid fa-trash"></i></a>
+                          @if (empty($item->user_id))
+                              <button type="button" title="Sửa" value="{{$item->id}}" class="btn btn-primary shadow-none btn-sm edit"><i class="fa-solid fa-pencil"></i></button>               
+                              <a type="button" onclick="return confirm('Bạn có chắc rằng muốn xoá? Dữ liệu sẽ không thể phục hồi.')" href="{{route('delete.customer', ['id' => $item->id])}}" title="Xoá" class="btn btn-danger shadow-none btn-sm"><i class="fa-solid fa-trash"></i></a>
+                          @endif                        
                         </td>
                       </tr>
                       @endforeach
@@ -68,71 +72,54 @@
                               <h5 class="modal-title">Thay đổi dữ liệu khách hàng</h5>
                           </div>
                           <div class="modal-body">
-                      <div class="row">
-                        <div class="col-md-11 mx-3 mb-4">
-                          <label class="form-label fw-bold">Tên khách hàng</label>
-                          <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Viết tên khách hàng" required>
-                        </div>
-                        <div class="col-md-5 mx-3 mb-4 ">
-                          <label class="form-label fw-bold">Mã khách hàng</label>
-                          <div class="d-flex">
-                            <input type="text" class="form-control" name="customer_id" id="customer_id" placeholder="Mã khách hàng" readonly required>
-                          </div>
+                            <div class="row">
+                              <div class="col-md-11 mx-3 mb-4">
+                                <label class="form-label fw-bold">Tên khách hàng</label>
+                                <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Viết tên khách hàng" required>
+                              </div>
+                              <div class="col-md-5 mx-3 mb-4">
+                                <label class="form-label fw-bold">Giới tính</label>
+                                <div class="form-check-label">
+                                  <input type="radio" name="gender" id="male" value="0" required>
+                                  <label class="form-check form-check-inline" for="male">Nam</label>
+                                  <input  type="radio" name="gender" id="female" value="1" required>
+                                  <label class="form-check form-check-inline" for="female">Nữ</label>
+                                </div>
 
-                        </div>
+                              </div>
+                              <div class="col-md-5 mx-3 mb-4">
+                                <label class="form-label fw-bold">Số điện thoại</label>
+                                <input type="text" class="form-control" name="phonenum" id="phonenum" placeholder="Nhập số điện thoại" required>
+                              </div>
+                              <div class="col-md-5 mx-3 mb-4">
+                                <label class="form-label fw-bold">Ngày sinh</label>
+                                <input type="date" class="form-control" name="birthdate" id="birthdate" required>
+                              </div>
+                              <div class="col-md-11 mx-3 mb-4">
+                                <label class="form-label fw-bold">Địa chỉ</label>
+                                <div class="d-flex align-items-center">
+                                  <select class="form-control" id="city" aria-label=".form-select-sm">
+                                  <option value="" selected>Chọn tỉnh thành</option>           
+                                  </select>
+                                            
+                                  <select class="form-control mx-5" id="district" aria-label=".form-select-sm">
+                                  <option value="" selected>Chọn quận huyện</option>
+                                  </select>
+                                  
+                                  <select class="form-control" id="ward" aria-label=".form-select-sm">
+                                  <option value="" selected>Chọn phường xã</option>
+                                  </select>
+                                </div>
+                                <input type="hidden" name="address" id="address">
+                                <input type="hidden" name="id" id="id">
 
-                        <div class="col-md-5 mx-3 mb-4">
-                          <label class="form-label fw-bold">Nhóm khách hàng</label>
-                          <select class="form-control" name="type_id" id="type_id">
-                            @foreach($type as $index => $item)
-                            <option value="{{$item->id}}">{{$item->type_name}}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                        <div class="col-md-5 mx-3 mb-4">
-                          <label class="form-label fw-bold">Giới tính</label>
-                          <div class="form-check-label">
-                            <input type="radio" name="gender" id="male" value="0" required>
-                            <label class="form-check form-check-inline" for="male">Nam</label>
-                            <input  type="radio" name="gender" id="female" value="1" required>
-                            <label class="form-check form-check-inline" for="female">Nữ</label>
-                          </div>
-
-                        </div>
-                        <div class="col-md-5 mx-3 mb-4">
-                          <label class="form-label fw-bold">Số điện thoại</label>
-                          <input type="text" class="form-control" name="phonenum" id="phonenum" placeholder="Nhập số điện thoại" required>
-                        </div>
-                        <div class="col-md-5 mx-3 mb-4">
-                          <label class="form-label fw-bold">Ngày sinh</label>
-                          <input type="date" class="form-control" name="birthdate" id="birthdate" required>
-                        </div>
-                        <div class="col-md-11 mx-3 mb-4">
-                          <label class="form-label fw-bold">Địa chỉ</label>
-                          <div class="d-flex align-items-center">
-                            <select class="form-control" id="city" aria-label=".form-select-sm">
-                            <option value="" selected>Chọn tỉnh thành</option>           
-                            </select>
-                                      
-                            <select class="form-control mx-5" id="district" aria-label=".form-select-sm">
-                            <option value="" selected>Chọn quận huyện</option>
-                            </select>
-                            
-                            <select class="form-control" id="ward" aria-label=".form-select-sm">
-                            <option value="" selected>Chọn phường xã</option>
-                            </select>
-                          </div>
-                          <input type="hidden" name="address" id="address">
-                          <input type="hidden" name="id" id="id">
-
-                        </div>
-                        <div class="col-md-11 mx-3 mb-4">
-                          <label class="form-label fw-bold">Ghi chú</label>
-                          <textarea name="note" id="note" class="form-control" rows="5"></textarea>
-                        </div>
-                        
-                      </div>
-      
+                              </div>
+                              <div class="col-md-11 mx-3 mb-4">
+                                <label class="form-label fw-bold">Ghi chú</label>
+                                <textarea name="note" id="note" class="form-control" rows="5"></textarea>
+                              </div>
+                              
+                            </div>
                           </div>
       
                           <div class="modal-footer">
@@ -179,5 +166,5 @@
   </script>
 
   @include('admin.js')
-  @include('admin.customers.js.customer_js')
 </html>
+<script src="{{asset('admin/js/customer/customer.js')}}"></script>

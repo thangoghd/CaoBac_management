@@ -25,7 +25,6 @@
                       <th scope="col">#</th>
                       <th scope="col">Tên sản phẩm</th>
                       <th scope="col">Ảnh</th>
-                      <th scope="col">Mã sản phẩm</th>
                       <th scope="col">Tồn kho thực tế</th>
                       <th scope="col">Tồn kho ảo</th>
                       <th scope="col">Nhóm sản phẩm</th>
@@ -35,13 +34,12 @@
                       <th scope="col">Hành động</th>
                     </tr>
                     <tbody>
-                      @foreach ($product as $index => $item)
+                      @foreach ($products as $index => $item)
                       
                       <tr class="align-middle">
                         <td>{{$index +1}} </td>
                         <td style="max-width: 250px">{{$item->product_name}}</td>
                         <td><img src="/product/{{$item->image}}" width="160px" height="240px"></td>
-                        <td>{{$item->product_id}}</td>
                         <td>{{$item->actual_inventory}}</td>
                         <td>{{$item->virtual_inventory}}</td>
                         <td>{{$item->category_name}}</td>
@@ -65,7 +63,8 @@
             <!-- Modal for editing product -->
             <div  class="modal fade" id="editProductModal"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg">
-                  <form action="{{url('/update_product')}}" autocomplete="off" method="POST"  enctype="multipart/form-data">
+                  <form action="{{route('update.product', ['id' => $item->id])}}" autocomplete="off" method="POST"  enctype="multipart/form-data">
+
                   @csrf
                   @method('PUT')
                       <div class="modal-content">
@@ -78,18 +77,10 @@
                                       <label class="form-label fw-bold">Tên sản phẩm</label>
                                       <input type="text" name="product_name" id="product_name" class="form-control shadow-none" required>
                                   </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label class="form-label fw-bold">Ảnh</label>
-                                      <img src="" name="image_show" id="image_show" width="160px" height="240px">
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-bold">Ảnh</label>
-                                    <input type="file" name="image" id="image" class="form-control shadow-none" >
-                                  </div>
 
                                   <div class="col-md-6 mb-3">
                                       <label class="form-label fw-bold">Nhóm sản phẩm</label>
-                                      <select class="form-control" name="category_id">
+                                      <select class="form-control" name="category_id" id="category_id">
                                         @foreach($category as $index =>$item)
                                         <option value="{{$item->id}}">{{$item->category_name}}</option>
                                         @endforeach
@@ -101,9 +92,8 @@
                                   </div>
                                   <div class="col-12 mb-3">
                                   <label class="form-label fw-bold">Decription</label>
-                                      <textarea name="decription" id="decription" rows="6" class="form-control shadow-" required></textarea>
+                                      <textarea name="decription" id="decription" rows="6" class="form-control shadow-"></textarea>
                                   </div>
-                                  <input type="hidden" name="id" id="id">
                               </div>
       
                           </div>
@@ -114,9 +104,11 @@
                           </div>
                       </div>
                   </form>
+                  
               </div>
             </div> 
             {{-- Edit modal end --}}
+
       <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
@@ -136,11 +128,9 @@
           url: "/product/get_product/" + id,
           success: function(response) 
           {
-            $('#id').val(response.product.id);
             $('#product_name').val(response.product.product_name);
-            $('#image_show').attr('src', '/product/' + response.product.image);
             $('#price').val(response.product.price);
-            $('#category_id').val(response.product.category_id);
+            $('#category_id').val(response.product.category_id).change();
             $('#decription').val(response.product.decription);
           }
         })

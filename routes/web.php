@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryNoteController;
 use App\Http\Controllers\OrderController;
@@ -28,9 +29,9 @@ Route::middleware(['isadmin'])->group(function () {
 
         // Product routes
         Route::prefix('product')->group(function () {
-            Route::get('/view_category', [ProductController::class, 'viewCategory'])->name('view.category');
-            Route::post('/add_category', [ProductController::class, 'addCategory'])->name('add.category');
-            Route::get('/delete_category/{id}', [ProductController::class, 'deleteCategory'])->name('delete.category');
+            Route::get('/view_category', [CategoryController::class, 'viewCategory'])->name('view.category');
+            Route::post('/add_category', [CategoryController::class, 'addCategory'])->name('add.category');
+            Route::get('/delete_category/{id}', [CategoryController::class, 'deleteCategory'])->name('delete.category');
     
             Route::get('/add_product', [ProductController::class, 'addProduct'])->name('add.product');
             Route::get('/view_product', [ProductController::class, 'viewProduct'])->name('view.product');
@@ -52,6 +53,7 @@ Route::middleware(['isadmin'])->group(function () {
     
         //Order routes
         Route::prefix(('order'))->group(function(){
+            route::post('/quick_createcustomer', [OrderController::class, 'createCustomer'])->name('quick.customer');
             route::get('/add_order', [OrderController::class, 'addOrder'])->name('add.order');
             route::post('/create_order', [OrderController::class, 'createOrder'])->name('create.order');
             route::post('/search_customer', [OrderController::class, 'searchCustomer'])->name('search.customer');
