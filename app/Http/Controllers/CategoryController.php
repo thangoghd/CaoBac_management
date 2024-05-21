@@ -12,7 +12,7 @@ class CategoryController extends Controller
     public function viewCategory()
     {
         $data = Category::all();
-        return view('admin\product\category', compact('data'));
+        return view('admin.product.category', compact('data'));
     }
 
             //Create a new category
